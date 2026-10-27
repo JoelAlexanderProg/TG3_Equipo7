@@ -1,0 +1,4 @@
+# This repository has historically been stored with CRLF line endings.
+# Disable all end-of-line conversion so checkouts and commits stay
+# byte-identical and no file ever shows up as wholly rewritten.
+* -text

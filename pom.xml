@@ -1,0 +1,191 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.googlecode.json-simple</groupId>
+  <artifactId>json-simple</artifactId>
+  <packaging>bundle</packaging>
+  <name>JSON.simple</name>
+  <version>1.1.2-SNAPSHOT</version>
+  <description>A simple Java toolkit for JSON</description>
+  <url>https://github.com/fangyidong/json-simple</url>
+  <licenses>
+      <license>
+          <name>The Apache Software License, Version 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <distribution>repo</distribution>
+      </license>
+  </licenses>
+  <developers>
+      <developer>
+          <id>Yidong</id>
+          <name>Yidong Fang</name>
+          <email>fangyidong@gmail.com</email>
+          <roles>
+              <role>architect</role>
+              <role>developer</role>
+          </roles>
+          <timezone>+8</timezone>
+      </developer>
+  </developers>
+  <scm>
+      <connection>scm:git:https://github.com/fangyidong/json-simple.git</connection>
+      <developerConnection>scm:git:git@github.com:fangyidong/json-simple.git</developerConnection>
+      <url>https://github.com/fangyidong/json-simple</url>
+  </scm>
+  <issueManagement>
+      <system>GitHub Issues</system>
+      <url>https://github.com/fangyidong/json-simple/issues</url>
+  </issueManagement>
+
+  <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      <!--
+        Bytecode target stays at Java 8 so existing downstream users are unaffected.
+        `release` (rather than source/target) also validates that only Java 8 APIs are
+        used, which source/target does not do. Building the project therefore needs
+        JDK 9+; the produced jar still runs on Java 8.
+      -->
+      <maven.compiler.release>8</maven.compiler.release>
+  </properties>
+
+  <dependencies>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.13.2</version>
+          <scope>test</scope>
+      </dependency>
+      <!--
+        JSON-java, the reference implementation. Used by ConformanceTest to check
+        this library against an independent one rather than only against itself.
+        Test scope only: json-simple still has no runtime dependencies.
+      -->
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20250517</version>
+          <scope>test</scope>
+      </dependency>
+  </dependencies>
+
+  <build>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>maven-bundle-plugin</artifactId>
+              <version>5.1.9</version>
+              <extensions>true</extensions>
+              <configuration>
+                <instructions>
+                  <!--
+                    Stable JPMS module name. Without it the module name is derived from
+                    the jar file name, which is neither stable nor distinct from forks.
+                  -->
+                  <Automatic-Module-Name>org.json.simple</Automatic-Module-Name>
+                  <Bundle-SymbolicName>com.googlecode.json-simple</Bundle-SymbolicName>
+                  <Export-Package>org.json.simple,org.json.simple.parser</Export-Package>
+                </instructions>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.13.0</version>
+          </plugin>
+          <!--
+            "bundle" packaging takes its lifecycle mapping from maven-bundle-plugin,
+            which names these goals without versions. Maven then resolves the latest
+            release at build time, which is both non-reproducible and noisy: it tries
+            the Maven 4 betas first and logs "Ignoring incompatible plugin version"
+            before falling back. Pinning them keeps the build deterministic; these are
+            the versions Maven was already selecting.
+          -->
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-resources-plugin</artifactId>
+              <version>3.3.1</version>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-install-plugin</artifactId>
+              <version>3.1.4</version>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-deploy-plugin</artifactId>
+              <version>3.1.4</version>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <version>3.2.5</version>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+              <version>3.3.1</version>
+              <executions>
+                <execution>
+                  <id>attach-sources</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>jar-no-fork</goal>
+                  </goals>
+                </execution>
+              </executions>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>3.6.3</version>
+              <executions>
+                <execution>
+                  <id>attach-javadocs</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>jar</goal>
+                  </goals>
+                </execution>
+              </executions>
+              <configuration>
+                <source>8</source>
+                <doclint>none</doclint>
+                <quiet>true</quiet>
+              </configuration>
+          </plugin>
+      </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <version>3.2.4</version>
+              <executions>
+                <execution>
+                  <id>sign-artifacts</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

@@ -1,0 +1,71 @@
+ChangeLog
+
+Version 1.1.2 (unreleased)
+Fixes
+* Fixed JSONParser throwing NumberFormatException instead of ParseException on
+  integers that overflow long
+* Fixed ItemList.getArray() always throwing ClassCastException
+* Fixed ItemList(String,String) using the input string as the separator
+* Fixed ParseException failing to serialize when it carries a Yytoken
+
+Backward compatibility (regressions that reached master after 1.1.1 shipped)
+* Restored JSONArray.toJSONString(List) and writeJSONString(List,Writer) as
+  deprecated delegates; widening them to Collection had broken binary
+  compatibility with NoSuchMethodError for callers compiled against 1.1.1
+* Restored ParseException.toString() to return the plain description as it did
+  on 1.1.1; getMessage() keeps returning it as well
+* Restored ParseException.serialVersionUID to its 1.1.1 value
+* Added tools/compat-check.sh, which compares the working tree against the last
+  published release on API surface, binary compatibility, behaviour and
+  serialization, and runs in CI
+
+* Added ConformanceTest, which checks decoding and encoding against JSON-java
+  (org.json), the reference implementation, rather than only against this
+  library's own past behaviour. Test scope only; there are still no runtime
+  dependencies
+
+Java compatibility
+* Replaced deprecated-for-removal new Integer(int) (18 uses) and new Character(char)
+* Build now uses maven.compiler.release=8 instead of source/target, which also
+  validates that only Java 8 APIs are used; building requires JDK 9+, the jar
+  still runs on Java 8
+* Added Automatic-Module-Name: org.json.simple to the manifest for JPMS
+* Added the missing @Deprecated annotations on JSONValue.parse()
+
+Project
+* Updated pom metadata from the defunct Google Code URLs to GitHub
+* Javadoc jar is now built and attached (required for Maven Central)
+* Removed build.xml and test.xml, which specified source="1.2" and could not run
+  on any supported JDK
+* Added README.md, CLAUDE.md, SECURITY.md, GitHub Actions CI, .editorconfig
+* Stopped tracking Eclipse project files
+
+No observable behaviour changes: encoding output, decoded types, and parser
+leniency are all unchanged.
+
+Version 1.1.1 (2012/01/29)
+* Supports OSGi
+* Accepts a java.util.Map parameter in constructor of JSONObject
+
+Version 1.1  (2009/01/23)
+* Supports stoppable SAX-like content handler for streaming of JSON text
+* Added JSONStreamAware to support streaming JSON text
+* Added ContainerFactory to support creating arbitrary Map and List as JSON object and JSON array container during decoding
+* Supports any Map and List as JSON object and JSON array container during encoding
+* Added interface JSONAware
+* Added ParseException to get detail error report while parsing 
+* Added escaping for Unicode characters that cause problems for browser JS eval
+ 
+Version 1.02 (2009/01/10)
+* Updated json.lex to improve performance of the lexer
+* Removed Rope.java and related junit test
+
+Version 1.01 (2008/08/26)
+* License changed to a more commerce friendly and clear one, Apache License 2.0
+* Use JFlex to generate a faster Yylex.java
+* Added Rope.java to get faster string operations
+* Separate test codes from source codes
+* Added ant build file build.xml
+
+Version 1.0 (2006/04/15)
+* Initial version
