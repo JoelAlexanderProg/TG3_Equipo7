@@ -186,48 +186,7 @@ public class JSONValue {
             return;
 		}
 		
-		if(value instanceof byte[]){
-			JSONArray.writeJSONString((byte[])value, out);
-			return;
-		}
-		
-		if(value instanceof short[]){
-			JSONArray.writeJSONString((short[])value, out);
-			return;
-		}
-		
-		if(value instanceof int[]){
-			JSONArray.writeJSONString((int[])value, out);
-			return;
-		}
-		
-		if(value instanceof long[]){
-			JSONArray.writeJSONString((long[])value, out);
-			return;
-		}
-		
-		if(value instanceof float[]){
-			JSONArray.writeJSONString((float[])value, out);
-			return;
-		}
-		
-		if(value instanceof double[]){
-			JSONArray.writeJSONString((double[])value, out);
-			return;
-		}
-		
-		if(value instanceof boolean[]){
-			JSONArray.writeJSONString((boolean[])value, out);
-			return;
-		}
-		
-		if(value instanceof char[]){
-			JSONArray.writeJSONString((char[])value, out);
-			return;
-		}
-		
-		if(value instanceof Object[]){
-			JSONArray.writeJSONString((Object[])value, out);
+		if(JSONArray.writeJSONStringIfArray(value, out)){
 			return;
 		}
 		

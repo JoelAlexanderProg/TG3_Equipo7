@@ -396,6 +396,63 @@ public class JSONArray extends ArrayList implements JSONAware, JSONStreamAware {
 		}
 	}
 	
+	/**
+	 * Writes the value as a JSON array if it is a Java array of one of the supported types.
+	 * 
+	 * @param value the value to encode
+	 * @param out the writer to write the JSON text to
+	 * @return true if the value was an array and was written; false otherwise
+	 * @throws IOException if the writer does
+	 */
+	static boolean writeJSONStringIfArray(Object value, Writer out) throws IOException{
+		if(value instanceof byte[]){
+			writeJSONString((byte[])value, out);
+			return true;
+		}
+		
+		if(value instanceof short[]){
+			writeJSONString((short[])value, out);
+			return true;
+		}
+		
+		if(value instanceof int[]){
+			writeJSONString((int[])value, out);
+			return true;
+		}
+		
+		if(value instanceof long[]){
+			writeJSONString((long[])value, out);
+			return true;
+		}
+		
+		if(value instanceof float[]){
+			writeJSONString((float[])value, out);
+			return true;
+		}
+		
+		if(value instanceof double[]){
+			writeJSONString((double[])value, out);
+			return true;
+		}
+		
+		if(value instanceof boolean[]){
+			writeJSONString((boolean[])value, out);
+			return true;
+		}
+		
+		if(value instanceof char[]){
+			writeJSONString((char[])value, out);
+			return true;
+		}
+		
+		if(value instanceof Object[]){
+			writeJSONString((Object[])value, out);
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public String toJSONString(){
 		return toJSONString(this);
 	}
