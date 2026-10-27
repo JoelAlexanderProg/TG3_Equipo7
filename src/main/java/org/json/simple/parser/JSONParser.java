@@ -138,6 +138,8 @@ public class JSONParser {
 				break;
 			case S_IN_ERROR:
 				throw new ParseException(getPosition(), ParseException.ERROR_UNEXPECTED_TOKEN, token);
+			default:
+				throw new IllegalStateException("Unexpected parser status: " + status);
 			}//switch
 			if(status==S_IN_ERROR){
 				throw new ParseException(getPosition(), ParseException.ERROR_UNEXPECTED_TOKEN, token);
@@ -404,8 +406,9 @@ public class JSONParser {
 			return false;
 		case S_IN_ERROR:
 			throw new ParseException(getPosition(), ParseException.ERROR_UNEXPECTED_TOKEN, token);
+		default:
+			throw new IllegalStateException("Unexpected parser status: " + status);
 		}
-		return true;
 	}
 	
 	private boolean handleInit(ContentHandler contentHandler, LinkedList statusStack) throws IOException, ParseException{
