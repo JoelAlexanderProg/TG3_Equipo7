@@ -56,6 +56,9 @@ public class Yytoken implements Serializable {
 		case TYPE_EOF:
 			sb.append("END OF FILE");
 			break;
+		default:
+			// Unknown token type: it has no description, as before.
+			break;
 		}
 		return sb.toString();
 	}
