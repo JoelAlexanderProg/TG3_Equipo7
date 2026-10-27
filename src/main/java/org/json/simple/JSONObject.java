@@ -99,6 +99,7 @@ public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAwa
 		return toJSONString(this);
 	}
 	
+	@Override
 	public String toString(){
 		return toJSONString();
 	}

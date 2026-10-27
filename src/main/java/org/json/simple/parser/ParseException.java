@@ -61,10 +61,12 @@ public class ParseException extends Exception {
 	 * returned null. Both now return the description, so callers written
 	 * against either release see the same text.
 	 */
+	@Override
 	public String toString() {
 		return getMessage();
 	}
 	
+	@Override
 	public String getMessage() {
 		StringBuffer sb = new StringBuffer();
 		

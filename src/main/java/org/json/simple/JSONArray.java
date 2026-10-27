@@ -404,6 +404,7 @@ public class JSONArray extends ArrayList implements JSONAware, JSONStreamAware {
 	 * Returns a string representation of this array. This is equivalent to
 	 * calling {@link JSONArray#toJSONString()}.
 	 */
+	@Override
 	public String toString() {
 		return toJSONString();
 	}
