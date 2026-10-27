@@ -140,28 +140,16 @@ public class JSONValue {
 			return;
 		}
 		
-		if(value instanceof Double){
-			if(((Double)value).isInfinite() || ((Double)value).isNaN())
+		if(value instanceof Double || value instanceof Float){
+			double number=((Number)value).doubleValue();
+			if(Double.isInfinite(number) || Double.isNaN(number))
 				out.write("null");
 			else
 				out.write(value.toString());
 			return;
 		}
 		
-		if(value instanceof Float){
-			if(((Float)value).isInfinite() || ((Float)value).isNaN())
-				out.write("null");
-			else
-				out.write(value.toString());
-			return;
-		}		
-		
-		if(value instanceof Number){
-			out.write(value.toString());
-			return;
-		}
-		
-		if(value instanceof Boolean){
+		if(value instanceof Number || value instanceof Boolean){
 			out.write(value.toString());
 			return;
 		}
