@@ -22,7 +22,14 @@ import org.json.simple.parser.ParseException;
  */
 public class JSONValue {
 	/**
-	 * Parse JSON text into java object from the input source. 
+	 * Utility class: all its methods are static, so it is not instantiated.
+	 */
+	private JSONValue(){
+		// No instances.
+	}
+	
+	/**
+	 * Parse JSON text into java object from the input source.
 	 * Please use parseWithException() if you don't want to ignore the exception.
 	 * 
 	 * @see org.json.simple.parser.JSONParser#parse(Reader)
