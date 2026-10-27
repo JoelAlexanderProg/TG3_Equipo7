@@ -339,16 +339,9 @@ public class JSONParser {
 	 * @throws ParseException
 	 */
 	public void parse(Reader in, ContentHandler contentHandler, boolean isResume) throws IOException, ParseException{
-		if(!isResume){
+		if(!isResume || handlerStatusStack == null){
 			reset(in);
 			handlerStatusStack = new LinkedList();
-		}
-		else{
-			if(handlerStatusStack == null){
-				isResume = false;
-				reset(in);
-				handlerStatusStack = new LinkedList();
-			}
 		}
 		
 		LinkedList statusStack = handlerStatusStack;	
