@@ -255,12 +255,7 @@ public class JSONValue {
 				break;
 			default:
 				if(needsUnicodeEscape(ch)){
-					String ss=Integer.toHexString(ch);
-					sb.append("\\u");
-					for(int k=0;k<4-ss.length();k++){
-						sb.append('0');
-					}
-					sb.append(ss.toUpperCase());
+					sb.append(String.format("\\u%04X", (int)ch));
 				}
 				else{
 					sb.append(ch);
