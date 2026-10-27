@@ -13,9 +13,9 @@ public class ParseException extends Exception {
 	public static final int ERROR_UNEXPECTED_TOKEN = 1;
 	public static final int ERROR_UNEXPECTED_EXCEPTION = 2;
 
-	private int errorType;
-	private Object unexpectedObject;
-	private int position;
+	private final int errorType;
+	private final Object unexpectedObject;
+	private final int position;
 	
 	public ParseException(int errorType){
 		this(-1, errorType, null);
@@ -35,10 +35,6 @@ public class ParseException extends Exception {
 		return errorType;
 	}
 	
-	public void setErrorType(int errorType) {
-		this.errorType = errorType;
-	}
-	
 	/**
 	 * @see org.json.simple.parser.JSONParser#getPosition()
 	 * 
@@ -46,10 +42,6 @@ public class ParseException extends Exception {
 	 */
 	public int getPosition() {
 		return position;
-	}
-	
-	public void setPosition(int position) {
-		this.position = position;
 	}
 	
 	/**
@@ -62,10 +54,6 @@ public class ParseException extends Exception {
 	 */
 	public Object getUnexpectedObject() {
 		return unexpectedObject;
-	}
-	
-	public void setUnexpectedObject(Object unexpectedObject) {
-		this.unexpectedObject = unexpectedObject;
 	}
 	
 	/**
