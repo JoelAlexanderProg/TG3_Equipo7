@@ -139,10 +139,9 @@ public class JSONParser {
 				break;
 				
 			case S_IN_FINISHED_VALUE:
-				if(token.type==Yytoken.TYPE_EOF)
-					return valueStack.removeFirst();
-				else
+				if(token.type!=Yytoken.TYPE_EOF)
 					throw new ParseException(getPosition(), ParseException.ERROR_UNEXPECTED_TOKEN, token);
+				return valueStack.removeFirst();
 				
 			case S_IN_OBJECT:
 				switch(token.type){
@@ -368,15 +367,13 @@ public class JSONParser {
 					
 				case S_IN_FINISHED_VALUE:
 					nextToken();
-					if(token.type==Yytoken.TYPE_EOF){
-						contentHandler.endJSON();
-						status = S_END;
-						return;
-					}
-					else{
+					if(token.type!=Yytoken.TYPE_EOF){
 						status = S_IN_ERROR;
 						throw new ParseException(getPosition(), ParseException.ERROR_UNEXPECTED_TOKEN, token);
 					}
+					contentHandler.endJSON();
+					status = S_END;
+					return;
 			
 				case S_IN_OBJECT:
 					nextToken();
