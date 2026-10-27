@@ -254,8 +254,7 @@ public class JSONValue {
 				sb.append("\\/");
 				break;
 			default:
-                //Reference: http://www.unicode.org/versions/Unicode5.1.0/
-				if((ch>='\u0000' && ch<='\u001F') || (ch>='\u007F' && ch<='\u009F') || (ch>='\u2000' && ch<='\u20FF')){
+				if(needsUnicodeEscape(ch)){
 					String ss=Integer.toHexString(ch);
 					sb.append("\\u");
 					for(int k=0;k<4-ss.length();k++){
@@ -268,6 +267,15 @@ public class JSONValue {
 				}
 			}
 		}//for
+	}
+	
+	/**
+	 * Tells if a character must be written as a Unicode escape sequence: the control characters
+	 * (U+0000 to U+001F and U+007F to U+009F) and the characters from U+2000 to U+20FF.
+	 * Reference: http://www.unicode.org/versions/Unicode5.1.0/
+	 */
+	private static boolean needsUnicodeEscape(char ch){
+		return (ch>='\u0000' && ch<='\u001F') || (ch>='\u007F' && ch<='\u009F') || (ch>='\u2000' && ch<='\u20FF');
 	}
 
 }
